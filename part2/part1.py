@@ -119,10 +119,11 @@ def process_weather(forecast_file):
     # min_temp = convert_f_to_c(min_temp)
     # max_temp = convert_f_to_c(max_temp)
     #add values to perform calc 
-    min_mean = sum(min_temp)/(len(min_temp))
-    max_mean = sum(max_temp)/(len(max_temp))
+    # min_mean = sum(min_temp)/(len(min_temp))
+    # max_mean = sum(max_temp)/(len(max_temp))
     #return calc 
     min_mean = calculate_mean(sum(min_temp), len(min_temp))
+    max_mean = calculate_mean(sum(max_temp), len(max_temp))
     #determine day/ lowest temp 
     index_min = min_temp.index(min(min_temp))
     low_day = converted_dates[index_min]
@@ -139,13 +140,13 @@ def process_weather(forecast_file):
     output = []
     line = f"5 Day Overview"
     output.append(line)
-    line = f"    The lowest temperature will be {min(min_temp)}{DEGREE_SYBMOL}, and will occur on {low_day}"
+    line = f"    The lowest temperature will be {min(min_temp)}{DEGREE_SYBMOL}, and will occur on {low_day}."
     output.append(line)
-    line = f"    The highest temperature will be {max(max_temp)}{DEGREE_SYBMOL}, and will occur on {high_day}"
+    line = f"    The highest temperature will be {max(max_temp)}{DEGREE_SYBMOL}, and will occur on {high_day}."
     output.append(line)
-    line = f"    The average low this week is {min_mean}{DEGREE_SYBMOL}"
+    line = f"    The average low this week is {min_mean}{DEGREE_SYBMOL}."
     output.append(line)
-    line = f"    The average high this week is {max_mean}{DEGREE_SYBMOL}"
+    line = f"    The average high this week is {max_mean}{DEGREE_SYBMOL}."
     output.append(line)
     output.append("")
     # line = "another line {}".format(variable)
@@ -153,15 +154,15 @@ def process_weather(forecast_file):
     # STEP 5: Loop 1 for daily output,  append each line to output
     # or While Loop 2 for each day/ value output
     for i in range(len(min_temp)):
-        line = (" -------- " + converted_dates[i] + " -------- ")
+        line = ("-------- " + converted_dates[i] + " --------")
         output.append(line)
         line = f"Minimum Temperature: {min_temp[i]}{DEGREE_SYBMOL}"
         output.append(line)
         line = f"Maximum Temperature: {max_temp[i]}{DEGREE_SYBMOL}"
         output.append(line)
-        line = f"Daytime: {long_boy[i]} \n    Chance of rain: {rain_chance[i]}%"
+        line = f"Daytime: {long_boy[i]}\n    Chance of rain:  {rain_chance[i]}%"
         output.append(line)
-        line = f"Nighttime: {long_boy_night[i]}\n    Chance of rain: {rain_chance_night[i]}%"
+        line = f"Nighttime: {long_boy_night[i]}\n    Chance of rain:  {rain_chance_night[i]}%"
         output.append(line)
         output.append("")
     # # STEP 6: Join all in the one string
