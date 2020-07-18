@@ -134,7 +134,6 @@ def process_weather(forecast_file):
     #google "python find the minimum in a list"
     #google "python find index of a value in a list"
     #date_min = date[index_of_min] 
-    
 
 # STEP 4: Create the lines for the overview information one by one, append each to the output
     output = []
@@ -170,3 +169,4 @@ def process_weather(forecast_file):
     return(final_output)
 if __name__ == "__main__":
     print(process_weather("data/forecast_5days_a.json"))
+
