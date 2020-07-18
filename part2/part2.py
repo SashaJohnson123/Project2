@@ -3,44 +3,83 @@ from datetime import datetime
 import plotly.express as px
 import pandas as pd 
 
+
+def convert_date(iso_string):
+    """Converts and ISO formatted date into a human readable format.
+    
+    Args:
+        iso_string: An ISO date string..
+    Returns:
+        A date formatted like: Weekday Date Month Year
+    """
+    d = datetime.strptime(iso_string, "%Y-%m-%dT%H:%M:%S%z")
+    # print("hello")
+    return d.strftime('%A %d %B %Y')
+    
+def convert_f_to_c(temp_in_farenheit):
+    """Converts an temperature from farenheit to celcius
+
+    Args:
+        temp_in_farenheit: integer representing a temperature.
+    Returns:
+        An integer representing a temperature in degrees celcius.
+    """
+    temp_in_celcius = (temp_in_farenheit - 32)*5/9
+    temp_in_celcius = round(temp_in_celcius, 1)
+    return temp_in_celcius
+
 # df = pd.read_json(forecast_5days_a.json)
 #print(df)
 with open("data/forecast_5days_a.json") as json_file:
         data = json.load(json_file)
-print(data)
+# print(data)
 
 # #STEP 1 - single time series graph that contains both min + max temps for each day 
 # #define the variables 
-
-max_temp = []
-min_temp = []
+max_temp_1 = []
+min_temp_1 = []
 converted_dates = []
-# min_real_feel = []
-# min_real_feelshade = [] 
+min_real_feel = []
+min_real_feelshade = [] 
+
+# forecast = [] 
 
 for item in data["DailyForecasts"]:
+        # converted_dates.append(convert_date(item["Date"]))
         converted_dates.append(convert_date(item["Date"]))
-        min_temp.append(convert_f_to_c(item["Temperature"]["Minimum"]["Value"]))
-        max_temp.append(convert_f_to_c(item["Temperature"]["Maximum"]["Value"]))
+        # min_temp.append(convert_f_to_c(item["Temperature"]["Minimum"]["Value"]))
+        # max_temp.append(convert_f_to_c(item["Temperature"]["Maximum"]["Value"]))
         # print(f"Minimum:{min_temp},  Maximum:{max_temp}")
+        min_temp_1.append(convert_f_to_c(item["Temperature"]["Minimum"]["Value"]))
+        max_temp_1.append(convert_f_to_c(item["Temperature"]["Maximum"]["Value"]))
+        min_real_feel.append(convert_f_to_c(item["RealFeelTemperature"]["Minimum"]["Value"]))
+        min_real_feelshade.append(convert_f_to_c(item["RealFeelTemperatureShade"]["Minimum"]["Value"]))
 
+data_1 = {
+    "Date": converted_dates, 
+    "Minimum Temperature": min_temp_1, 
+    "Maximum Temperature": max_temp_1, 
+    "Minimum Real Feel": min_real_feel, 
+    "Minimum Real Feel Shade": min_real_feelshade, 
+}
 
-#list variables in a dataframe 
-# pd.DataFrame(list(map(min_temp, max_temp)))
-# myData = []
-# MyData = pd.DataFrame("Min":min_temp, "Max":max_temp)
+# forecast.append(data_1)
+# print(data_1)
 
-# #makes the graph 
-# fig = px.line(
-#     NAMEOFLISTOFDICT,
+#makes the graph 
+# fig = px.line(data_1, 
 #     x="Date",
-#     y=["Minimum", "Maximum"],
-#     title="Forecast"
-# )
+#     y=["Minimum Temperature", "Maximum Temperature"], 
+#     # y=[min_temp_1, max_temp_1],
+#     title="Forecast")
 # fig.show()
 
-# var1 = ["Temperature"]["Minimum"]["Value"]
-# var2 = ["Temperature"]["Maximum"]["Value"]
+fig2 = px.line(data_1, 
+    x="Date",
+    y=["Minimum Temperature", "Minimum Real Feel", "Minimum Real Feel Shade"], 
+    # y=[min_temp_1, max_temp_1],
+    title="Forecast")
+fig2.show()
 
 
 # # # Line Graphs
@@ -60,40 +99,21 @@ for item in data["DailyForecasts"]:
 #             )
 # ))
 
+# #list variables in a dataframe 
+# # pd.DataFrame(list(map(min_temp, max_temp)))
+# # myData = []
+# # MyData = pd.DataFrame("Min":min_temp, "Max":max_temp)
+
+
+# # Using hard coded data df = {
+# # "our_data": [123, 132, 654, 345, 125, 498], "more_data": [345, 67, 176, 245, 197, 391], "columns": ["a", "b", "c", "d", "e", "f"]
+# # }
+# fig = px.line(df, y="our_data", x="columns") fig.show()
+# fig = px.line(df, y=["our_data", "more_data"], x="columns") fig.show()
+
+# var1 = ["Temperature"]["Minimum"]["Value"]
+# var2 = ["Temperature"]["Maximum"]["Value"]
+
 
 # #STEP 2 - single time series graph that contains "min", min "real feel", "min real feel shade" temps 
-
-# #show data 
-# [{'date': 
-# 'Monday 22 June 2020', 
-# 'max': 21.7, 
-# 'min': 15.0, 
-# 'min real feel': 11.1, 
-# 'min real feel shade': 11.1}, 
-
-# {'date': 
-# 'Tuesday 23 June 2020', 
-# 'max': 19.4, 
-# 'min': 11.1, 
-# 'min real feel': 11.7, 
-# 'min real feel shade': 11.7}, 
-
-# {'date': 
-# 'Wednesday 24 June 2020', 
-# 'max': 18.9, 
-# 'min': 8.9, 
-# 'min real feel': 8.3, 
-# 'min real feel shade': 8.3}, 
-
-# {'date': 'Thursday 25 June 2020', 
-# 'max': 20.0, 
-# 'min': 11.1, 
-# 'min real feel': 10.0, 
-# 'min real feel shade': 10.0}, 
-
-# {'date': 'Friday 26 June 2020', 
-# 'max': 18.9, 
-# 'min': 11.7, 
-# 'min real feel': 10.6, 
-# 'min real feel shade': 10.6}]
 
