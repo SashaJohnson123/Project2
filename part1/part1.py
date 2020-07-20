@@ -99,9 +99,9 @@ def process_weather(forecast_file):
         max_temp.append(convert_f_to_c(item["Temperature"]["Maximum"]["Value"]))
         # print(f"Minimum:{min_temp},  Maximum:{max_temp}")
         long_boy.append(item["Day"]["LongPhrase"])
+        rain_chance.append(item["Day"]["RainProbability"])
         long_boy_night.append(item["Night"]["LongPhrase"])
-        rain_chance.append(item["Day"]["PrecipitationProbability"])
-        rain_chance_night.append(item["Night"]["PrecipitationProbability"])
+        rain_chance_night.append(item["Night"]["RainProbability"])
         # print(f"Long words: {long_boy}")
         # print(f"Chance of rain{rain_chance} Long_words:  {long_boy}") 
         # converted_dates.append(convert_date(date_input))
@@ -137,7 +137,7 @@ def process_weather(forecast_file):
 
 # STEP 4: Create the lines for the overview information one by one, append each to the output
     output = []
-    line = f"5 Day Overview"
+    line = ("{} Day Overview".format(len(min_temp)))
     output.append(line)
     line = f"    The lowest temperature will be {min(min_temp)}{DEGREE_SYBMOL}, and will occur on {low_day}."
     output.append(line)
@@ -165,6 +165,7 @@ def process_weather(forecast_file):
         output.append(line)
         output.append("")
     # # STEP 6: Join all in the one string
+    output.append("")
     final_output = "\n".join(output)
     return(final_output)
 if __name__ == "__main__":
